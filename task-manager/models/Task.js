@@ -5,8 +5,13 @@ const TaskSchema = new mongoose.Schema({
     type: String,
     // 필수 지정
     required: [true, 'must provide name'],
+    trim: true,
+    maxlength: [20, 'name can not be more than 20 character'],
   },
-  completed: Boolean,
+  completed: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model('Task', TaskSchema);
