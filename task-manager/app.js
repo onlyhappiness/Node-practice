@@ -3,23 +3,18 @@ const app = express();
 const tasks = require('./routes/tasks');
 const connectDB = require('./db/connect');
 require('dotenv').config();
+const notFound = require('./middleware/not-found');
+const errorHandlerMiddleware = require('./middleware/error-handler');
 
 // middleware
-
+app.use(express.static('./public'));
 app.use(express.json());
 
 // routes
-app.get('/hello', (req, res) => {
-  res.send('Task Manager App');
-});
-
 app.use('/api/v1/tasks', tasks);
 
-// app.get('/api/v1/tasks')      // 모든 tasks를 get
-// app.post('/api/v1/tasks')     // 새로운 task를 만듦
-// app.get('/api/v1/tasks/:id')  // task 하나만 get
-// app.patch('/api/v1/tasks/:id')  // update task
-// app.delete('/api/v1/tasks/:id') // delete task
+app.use(notFound);
+app.use(errorHandlerMiddleware);
 
 const port = 3000;
 
